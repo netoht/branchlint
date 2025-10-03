@@ -1,7 +1,9 @@
 const path = require('path');
 const cmd = require('./support/cmd');
 
-const branchLintPath = path.resolve(__basedir, 'bin', 'branchlint');
+const appDir = path.resolve(__dirname, '..');
+
+const branchLintPath = path.resolve(appDir, 'bin', 'branchlint');
 
 describe('CLI test', () => {
   test('should show help', async () => {
@@ -18,7 +20,7 @@ describe('CLI test', () => {
   test('should lint branch if config option passed', async () => {
     const response = cmd.executeSync(branchLintPath, [
       '-c',
-      `${__basedir}/__tests__/fixtures/.branchlintrc.allowed.json`,
+      `${appDir}/__tests__/fixtures/.branchlintrc.allowed.json`,
     ]);
     const { status } = response;
     expect(status).toEqual(0);
@@ -43,7 +45,7 @@ describe('CLI Test requires checkout', () => {
     cmd.executeExternal('git', ['checkout', '-B', 'foo/bar']);
     const response = cmd.executeSync(branchLintPath, [
       '-c',
-      `${__basedir}/__tests__/fixtures/.branchlintrc.prefix.json`,
+      `${appDir}/__tests__/fixtures/.branchlintrc.prefix.json`,
     ]);
     const { status } = response;
     expect(status).toEqual(1);
@@ -53,7 +55,7 @@ describe('CLI Test requires checkout', () => {
     cmd.executeExternal('git', ['checkout', '-B', 'test/foobaz']);
     const response = cmd.executeSync(branchLintPath, [
       '-c',
-      `${__basedir}/__tests__/fixtures/.branchlintrc.disallowed.json`,
+      `${appDir}/__tests__/fixtures/.branchlintrc.disallowed.json`,
     ]);
     const { status } = response;
     expect(status).toEqual(1);
@@ -63,7 +65,7 @@ describe('CLI Test requires checkout', () => {
     cmd.executeExternal('git', ['checkout', '-B', 'test/validregex']);
     const response = cmd.executeSync(branchLintPath, [
       '-c',
-      `${__basedir}/__tests__/fixtures/.branchlintrc.regex.json`,
+      `${appDir}/__tests__/fixtures/.branchlintrc.regex.json`,
     ]);
     const { status } = response;
     expect(status).toEqual(0);
@@ -73,7 +75,7 @@ describe('CLI Test requires checkout', () => {
     cmd.executeExternal('git', ['checkout', '-B', 'test/foo/bar']);
     const response = cmd.executeSync(branchLintPath, [
       '-c',
-      `${__basedir}/__tests__/fixtures/.branchlintrc.section.json`,
+      `${appDir}/__tests__/fixtures/.branchlintrc.section.json`,
     ]);
     const { status } = response;
     expect(status).toEqual(1);
@@ -83,7 +85,7 @@ describe('CLI Test requires checkout', () => {
     cmd.executeExternal('git', ['checkout', '-B', 'test-foo-bar']);
     const response = cmd.executeSync(branchLintPath, [
       '-c',
-      `${__basedir}/__tests__/fixtures/.branchlintrc.separator.json`,
+      `${appDir}/__tests__/fixtures/.branchlintrc.separator.json`,
     ]);
     const { status } = response;
     expect(status).toEqual(1);

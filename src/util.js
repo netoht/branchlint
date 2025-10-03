@@ -1,5 +1,6 @@
-const { sprintf } = require('sprintf-js');
-const chalk = require('chalk');
+import path from 'path';
+import { sprintf } from 'sprintf-js';
+import chalk from 'chalk';
 
 function log(body) {
   // eslint-disable-next-line no-console
@@ -68,7 +69,12 @@ function printErrorMessage(config, type, branchName) {
   }
 }
 
+function appDir() {
+  return path.resolve(__dirname, '..');
+}
+
 export default {
   log,
   printErrorMessage,
+  appDir,
 };

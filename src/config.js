@@ -1,22 +1,21 @@
-const { cosmiconfigSync } = require('cosmiconfig');
+import { cosmiconfigSync } from 'cosmiconfig';
+import chalk from 'chalk';
 
 const packageName = 'branchlint';
-const chalk = require('chalk');
-const _ = require('lodash');
 
 export class Config {
   constructor(options = null) {
-    this.options = options;
+    this.options = options ?? {};
     this.configFileOptions = {};
 
     this.setDefaultOptions();
     this.readFromConfigFile(options);
 
-    this.options = _.extend(
-      this.defaultOptions,
-      this.configFileOptions,
-      this.options,
-    );
+    this.options = {
+      ...this.defaultOptions,
+      ...this.configFileOptions,
+      ...this.options,
+    };
   }
 
   readFromConfigFile(options) {
@@ -35,6 +34,7 @@ export class Config {
         this.configFileOptions = searchedFor.config;
       }
     } catch (e) {
+      // eslint-disable-next-line no-console
       console.log(chalk.red(`Config error: ${e}`));
       process.exit(1);
     }

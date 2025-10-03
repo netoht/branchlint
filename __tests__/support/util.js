@@ -1,8 +1,9 @@
-const path = require('path');
-const fs = require('fs-extra');
+import path from 'path';
+import fs from 'fs-extra';
+import { appDir } from '../../src/util.js';
 
 function populateFixtures(targetDir) {
-  fs.copySync(path.resolve(__basedir, '__tests__', 'fixtures'), targetDir);
+  fs.copySync(path.resolve(appDir(), '__tests__', 'fixtures'), targetDir);
 }
 
 module.exports = { populateFixtures };

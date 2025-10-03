@@ -1,10 +1,11 @@
-const fs = require('fs');
-const path = require('path');
-const cmd = require('./cmd');
+import fs from 'fs';
+import path from 'path';
+import cmd from './cmd.js';
+import { appDir } from '../../src/util.js';
 
 function assertFormatted(file) {
   const response = cmd.executeSync(
-    path.resolve(__basedir, 'bin', 'blade-formatter'),
+    path.resolve(appDir, 'bin', 'blade-formatter'),
     [file, '-c'],
   );
 
@@ -25,7 +26,7 @@ function assertNotFormatted(file) {
   });
 
   const response = cmd.executeSync(
-    path.resolve(__basedir, 'bin', 'blade-formatter'),
+    path.resolve(appDir, 'bin', 'blade-formatter'),
     [file, '-c'],
   );
 

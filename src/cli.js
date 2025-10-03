@@ -1,10 +1,11 @@
 import yargs from 'yargs';
-import { Config } from './config';
-import { Linter } from './linter';
+import gitBranchIs from 'git-branch-is';
+// eslint-disable-next-line import/extensions
+import { Config } from './config.js';
+// eslint-disable-next-line import/extensions
+import { Linter } from './linter.js';
 
-const gitBranchIs = require('git-branch-is');
-
-export default async function cli() {
+export default async function exec() {
   const argv = await yargs
     .usage('Usage: $0')
     .example('$0', 'Lint current branch')
@@ -15,8 +16,7 @@ export default async function cli() {
       type: 'string',
       description: 'Config file path',
       default: null,
-    })
-    .epilog('Copyright Shuhei Hayashibara 2019').argv;
+    }).argv;
   const config = new Config({ config: argv.config });
 
   gitBranchIs.getBranch().then(branchName => {

@@ -1,6 +1,4 @@
-import util from './util';
-
-const _ = require('lodash');
+import util from './util.js';
 
 export class Linter {
   constructor(config) {
@@ -23,7 +21,7 @@ export class Linter {
 
     this.printErrors(validations, branchName);
 
-    const somethingError = _.some(validations, validation => {
+    const somethingError = validations?.some(validation => {
       return !validation.isValid;
     });
 
@@ -36,7 +34,7 @@ export class Linter {
   }
 
   isAllowed(branchName) {
-    if (_.includes(this.options.allowed, branchName)) {
+    if (this.options?.allowed?.includes(branchName)) {
       util.log('valid branch name');
       return true;
     }
@@ -46,7 +44,7 @@ export class Linter {
 
   printErrors(validations, branchName) {
     if (!this.options.quiet) {
-      _.each(validations, validation => {
+      validations?.forEach(validation => {
         if (!validation.isValid) {
           util.printErrorMessage(this.options, validation.type, branchName);
         }
@@ -61,7 +59,7 @@ export class Linter {
       return true;
     }
 
-    return _.some(prefixes, prefix => {
+    return prefixes?.some(prefix => {
       const regex = new RegExp(`^${prefix}${separator}`);
       return branchName.match(regex);
     });
@@ -74,7 +72,7 @@ export class Linter {
       return true;
     }
 
-    return !_.some(disallowed, name => {
+    return !disallowed?.some(name => {
       const regex = new RegExp(`^${name}$`);
       return branchName.match(regex);
     });
@@ -87,7 +85,7 @@ export class Linter {
       return true;
     }
 
-    return _.some(regularExpressions, regularExpression => {
+    return regularExpressions.some(regularExpression => {
       const regex = new RegExp(regularExpression);
       return branchName.match(regex);
     });
@@ -100,7 +98,7 @@ export class Linter {
     }
 
     const regex = new RegExp(`^.*${separator}.*`);
-    return !_.isNull(branchName.match(regex));
+    return branchName.match(regex) !== null;
   }
 
   validateSections(branchName) {
